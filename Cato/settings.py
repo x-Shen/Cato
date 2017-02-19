@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'CatoApp',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROeOT_URLCONF = 'Cato.urls'
+ROOT_URLCONF = 'Cato.urls'
 
 TEMPLATES = [
     {
@@ -80,7 +81,7 @@ DATABASES = {
         'NAME': 'catodb',
         'USER': 'catoadmin',
         'PASSWORD': 'catoadminpw',
-        'HOST': '52.52.97.189',
+        'HOST': '52.52.227.46',
         'PORT': '3306'
     }
 }
