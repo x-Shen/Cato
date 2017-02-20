@@ -7,7 +7,10 @@ from django.db import models
 class User(models.Model):
     email = models.CharField(max_length=256)
     password = models.CharField(max_length=16)
-    education = models.CharField(max_length=16)
+    education = models.CharField(max_length=16,null=True)
+    graduation_date = models.DateField(null=True)
+    major = models.CharField(max_length=16,null=True)
+    location = models.CharField(max_length=True)
 
 
 class Skill(models.Model):
@@ -17,8 +20,10 @@ class Skill(models.Model):
 class Job(models.Model):
     title = models.CharField(max_length=256)
     company = models.CharField(max_length=256)
-    last_updated = models.DateField(auto_now_add=True)
+    last_updated = models.DateField(auto_now_add=True,auto_now=True)
     posting_date = models.DateField(null=True)
+    valid = models.BooleanField()
+    location=models.CharField(null=True)
 
 
 class UserHasSkill(models.Model):
@@ -31,9 +36,11 @@ class JobNeedSkill(models.Model):
     skill = models.ForeignKey(Skill,on_delete=models.CASCADE)
 
 
-class UserSeenJob(models.Model):
+class UserJobRelation(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     job = models.ForeignKey(Job,on_delete=models.CASCADE)
+    seen = models.BooleanField()
+    recommended = models.BooleanField()
     starred = models.BooleanField()
     dismissed = models.BooleanField()
     viewed_count = models.PositiveIntegerField()
