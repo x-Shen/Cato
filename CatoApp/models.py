@@ -39,6 +39,7 @@ class Skill(models.Model):
 
 class Job(models.Model):
     title = models.CharField(max_length=256)
+    url = models.URLField()
     company = models.CharField(max_length=256)
     last_updated = models.DateField(auto_now=True)
     posting_date = models.DateField(null=True)
