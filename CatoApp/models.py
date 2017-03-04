@@ -2,7 +2,7 @@ from django.db import models
 
 
 class User(models.Model):
-    email = models.CharField(max_length=256)
+    email = models.CharField(max_length=255,unique=True)
     password = models.CharField(max_length=16)
     # education = models.CharField(max_length=16,null=True)
     # education with limited choices
@@ -39,7 +39,7 @@ class Skill(models.Model):
 
 class Job(models.Model):
     title = models.CharField(max_length=256)
-    url = models.URLField()
+    url = models.URLField(default="")
     company = models.CharField(max_length=256)
     last_updated = models.DateField(auto_now=True)
     posting_date = models.DateField(null=True)
