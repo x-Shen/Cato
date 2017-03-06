@@ -10,12 +10,14 @@
     <hr />
 </div>
 <div>
-    Skills: {{ skills }}
+    Skills: {% for skill in skills %}
+                [{{ skill }}]
+            {% endfor %}
     <hr />
 </div>
 <div>
     Education: {{ user.education }} <br />
-    Graduation Date: {{ user.graduation_date }}
+    Graduation Date: {{ user.graduation_date }} <br />
     Major: {{ user.major }} <br />
     <hr />
 </div>

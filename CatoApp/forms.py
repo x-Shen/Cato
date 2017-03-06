@@ -3,6 +3,16 @@ from CatoApp.models import *
 from django.contrib.admin.widgets import AdminDateWidget
 
 
+class SearchForm(forms.Form):
+    education = forms.ChoiceField(choices=EDUCATION_CHOICES, widget=forms.RadioSelect, required=False)
+    major = forms.ChoiceField(choices=MAJOR_CHOICES, widget=forms.RadioSelect, required=False)
+    zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False)
+
+    def matched_jobs(self):
+        # job search logic goes here
+        return [] #job found goes here
+
+
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput,max_length=16,min_length=6)
@@ -18,7 +28,7 @@ class LoginForm(forms.Form):
     def login(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-        return User.objects.filter(email=email, password=password).values('id').first()
+        return User.objects.get(email=email, password=password).id
 
 
 class SignUpForm(forms.Form):
@@ -69,4 +79,4 @@ class SignUpForm(forms.Form):
             zipcode=zipcode,
         )
         new_user.save()
-        return User.objects.filter(email=email, password=password).values('id').first()
+        return User.objects.get(email=email, password=password).id
