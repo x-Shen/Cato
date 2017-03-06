@@ -116,7 +116,3 @@ def profile(request):
         },
         RequestContext(request)
     )
-
-
-def search(request):
-    pass
