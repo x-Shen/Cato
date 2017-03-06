@@ -5,6 +5,18 @@
     <title>Cato Login</title>
 </head>
 <body>
-
+<form action="/login/" method="post">
+    {% csrf_token %}
+    {% for error in login_form.non_field_errors %}
+        {{ error }}<br />
+    {% endfor %}
+    Email:
+    {{ login_form.email }}
+    <br />
+    Password:
+    {{ login_form.password }}
+    <br />
+    <input type="submit" name="login">
+</form>
 </body>
 </html>
