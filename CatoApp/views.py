@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.shortcuts import render_to_response
 from CatoApp.forms import *
 from CatoApp.models import *
 from django.http import HttpResponseRedirect
@@ -68,3 +67,21 @@ def sign_up(request):
         RequestContext(request)
     )
 
+
+def profile(request):
+    if not request.session.has_key('user_id'):
+        return render(
+            request,
+            'login.html',
+            {'login_form': LoginForm()},
+            RequestContext(request)
+        )
+    return render(
+        request,
+        'profile.html',
+        {
+            'user': User.objects.get(id=request.session['user_id']),
+            'skills': Skill.objects.filter(id__in=UserHasSkill.objects.filter(user_id=request.session['user_id']))
+        },
+        RequestContext(request)
+    )
