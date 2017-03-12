@@ -1,16 +1,15 @@
 from django import forms
 from CatoApp.models import *
-from django.contrib.admin.widgets import AdminDateWidget
 
 
 class SearchForm(forms.Form):
-    education = forms.ChoiceField(choices=EDUCATION_CHOICES, widget=forms.RadioSelect, required=False)
-    major = forms.ChoiceField(choices=MAJOR_CHOICES, widget=forms.RadioSelect, required=False)
+    education = forms.ChoiceField(choices=EDUCATION_CHOICES, widget=forms.Select, required=False)
+    major = forms.ChoiceField(choices=MAJOR_CHOICES, widget=forms.Select, required=False)
     zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False)
 
     def matched_jobs(self):
         # job search logic goes here
-        return [] #job found goes here
+        return []  # job found goes here
 
 
 class LoginForm(forms.Form):

@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
+
     <title>Cato - {% block title %}{% endblock title %}</title>
-    {% block stylesheet %}<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />{% endblock stylesheet %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    {% block stylesheet %}{% endblock stylesheet %}
+
+    <script src="{% static 'script.js' %}"></script>
     {% block script %}{% endblock script %}
 </head>
 
-<body>
+<body background="{% block body-bg-image %}{% static 'images/background1.jpg' %}{% endblock %}">
 
 <div class="nav">
 {% block header %}
@@ -29,6 +34,8 @@
 <div class="body">
 {% block body %}{% endblock body %}
 </div>
+
+<div style="margin: 500px"></div>
 
 <div>
 {% block footer %}{% endblock footer %}

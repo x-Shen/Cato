@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'CatoApp',
+    # 'django_select2',  # type the following in console: pip install django-select2
 ]
 
 MIDDLEWARE = [

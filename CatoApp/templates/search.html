@@ -7,9 +7,9 @@
 {% block body %}
     <form action="/" method="post">
         {% csrf_token %}
-        Education: {{ search_form.education }}<br />
+        Education: {{ search_form.education }}
         Major: {{ search_form.major }}<br />
-        <input type="submit" name="search">
+        <input type="submit" value="Search">
     </form>
 
     {% if search_result and search_result.count > 0 %}
