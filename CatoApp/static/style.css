@@ -1,4 +1,10 @@
-.menu ul {
+.nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -6,11 +12,11 @@
     background-color: #333;
 }
 
-.menu li {
+.nav li {
     float: right;
 }
 
-.menu li a {
+.nav li a {
     display: inline-block;
     color: white;
     text-align: center;
@@ -18,13 +24,22 @@
     text-decoration: none;
 }
 
-.menu li a:hover {
+.nav li a.active {
+    background-color: #222;
+}
+
+.nav li a:hover {
     background-color: #111;
 }
 
 div.body {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 100px;
+    margin-bottom: 100px;
     margin-right: 150px;
     margin-left: 150px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-left: 50px;
+    background-color: #e2e2e2;
 }

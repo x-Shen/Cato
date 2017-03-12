@@ -11,16 +11,16 @@
 
 <body>
 
-<div class="menu">
+<div class="nav">
 {% block header %}
     <ul>
-        <li style="float: left"><a href="/">Home</a></li>
+        <li style="float: left"><a class="{% block home-active %}inactive{% endblock %}" href="/">Home</a></li>
         {% if request.session.user_id %}
-            <li><a href="/profile/">Profile</a></li>
-            <li><a href="/logout/">Logout</a></li>
+            <li><a class="{% block profile-active %}inactive{% endblock %}" href="/profile/">Profile</a></li>
+            <li><a class="{% block logout-active %}inactive{% endblock %}" href="/logout/">Logout</a></li>
         {% else %}
-            <li><a href="/login/">Login</a></li>
-            <li><a href="/signup">Sign Up</a></li>
+            <li><a class="{% block login-active %}inactive{% endblock %}" href="/login/">Login</a></li>
+            <li><a class="{% block signup-active %}inactive{% endblock %}" href="/signup">Sign Up</a></li>
         {% endif %}
     </ul>
 {% endblock header %}

@@ -70,6 +70,7 @@ def login(request):
 
 def logout(request):
     request.session.flush() # delete everything; should I leave something alive?
+    return HttpResponseRedirect('/')
 
 
 def sign_up(request):
