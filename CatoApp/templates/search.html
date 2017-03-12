@@ -1,15 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cato Home</title>
-</head>
-<body>
-<form action="/" method="post">
-    Education: {{ search_form.education }}<br />
-    Major: {{ search_form.major }}<br />
-    <input type="submit" name="search">
-</form>
-{% for job in  %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Find the Right Internship For You{% endblock title %}
+
+{% block body %}
+    <form action="/" method="post">
+        {% csrf_token %}
+        Education: {{ search_form.education }}<br />
+        Major: {{ search_form.major }}<br />
+        <input type="submit" name="search">
+    </form>
+
+    {% if search_result and search_result.count > 0 %}
+        <hr />
+        <h2>Matched Jobs: </h2>
+        {% for job in search_result%}
+            <!-- show job info here -->
+        {% endfor %}
+    {% endif %}
+{% endblock body %}

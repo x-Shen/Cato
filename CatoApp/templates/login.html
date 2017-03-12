@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cato Login</title>
-</head>
-<body>
-<form action="/login/" method="post">
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block body %}
+    <form action="/login/" method="post">
     {% csrf_token %}
     {% for error in login_form.non_field_errors %}
         {{ error }}<br />
@@ -18,5 +16,4 @@
     <br />
     <input type="submit" name="login">
 </form>
-</body>
-</html>
+{% endblock body %}

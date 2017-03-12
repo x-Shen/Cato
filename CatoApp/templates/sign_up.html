@@ -1,29 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New User Sign Up</title>
-</head>
-<body>
-<form action="/signup/" method="post">
-    {% csrf_token %}
-    {% for error in sign_up_form.non_field_errors %}
-        {{ error }}<br />
-    {% endfor %}
-    {% for error in sign_up_form.email.errors %}
-        {{ error }}<br />
-    {% endfor %}
-    Email: {{ sign_up_form.email }}<br />
-    Password: {{ sign_up_form.password }}<br />
-    {% for error in sign_up_form.confirm_pw.errors %}
-        {{ error }}<br />
-    {% endfor %}
-    Confirm password: {{ sign_up_form.confirm_pw }}<br />
-    Education: {{ sign_up_form.education }}<br />
-    Graduation_Date: {{ sign_up_form.graduation_date }}<br />
-    Major: {{ sign_up_form.major }}<br />
-    Zipcode: {{ sign_up_form.zipcode }}<br />
-    <input type="submit" name="Sign Up">
-</form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block body %}
+    <form action="/signup/" method="post">
+        {% csrf_token %}
+        {% for error in sign_up_form.non_field_errors %}
+            {{ error }}<br />
+        {% endfor %}
+        {% for error in sign_up_form.email.errors %}
+            {{ error }}<br />
+        {% endfor %}
+        Email: {{ sign_up_form.email }}<br />
+        Password: {{ sign_up_form.password }}<br />
+        {% for error in sign_up_form.confirm_pw.errors %}
+            {{ error }}<br />
+        {% endfor %}
+        Confirm password: {{ sign_up_form.confirm_pw }}<br />
+        Education: {{ sign_up_form.education }}<br />
+        Graduation_Date: {{ sign_up_form.graduation_date }}<br />
+        Major: {{ sign_up_form.major }}<br />
+        Zipcode: {{ sign_up_form.zipcode }}<br />
+        <input type="submit" name="Sign Up">
+    </form>
+{% endblock body %}
