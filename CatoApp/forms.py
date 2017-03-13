@@ -1,10 +1,27 @@
+# from django_select2.forms import *
 from django import forms
-from CatoApp.models import *
+from CatoApp import models
+
+
+# class SkillSelect2TagWidget(ModelSelect2TagWidget):
+#     queryset = models.Skill.objects.all()
+#
+#     def value_from_datadict(self, data, files, name):
+#         values = super().value_from_datadict(self, data, files, name)
+#         qs = self.queryset.filter(**{'pk__in': list(values)})
+#         pks = set(force_text(getattr(o, self.queryset.pk)) for o in qs)
+#         cleaned_values = []
+#         for val in values:
+#             if force_text(val) not in pks:
+#                 val = self.queryset.create(name=val).pk
+#             cleaned_values.append(val)
+#         return cleaned_values
 
 
 class SearchForm(forms.Form):
-    education = forms.ChoiceField(choices=EDUCATION_CHOICES, widget=forms.Select, required=False)
-    major = forms.ChoiceField(choices=MAJOR_CHOICES, widget=forms.Select, required=False)
+    skills = forms.ModelMultipleChoiceField(queryset=models.Skill.objects.all().order_by('name'), to_field_name="name", required=False)
+    education = forms.ChoiceField(choices=models.EDUCATION_CHOICES, required=False)
+    major = forms.ChoiceField(choices=models.MAJOR_CHOICES, required=False)
     zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False)
 
     def matched_jobs(self):
@@ -14,34 +31,34 @@ class SearchForm(forms.Form):
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput,max_length=16,min_length=6)
+    password = forms.CharField(widget=forms.PasswordInput, max_length=16, min_length=6)
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
-        if not User.objects.filter(email=email, password=password).values('id').first():
+        if not models.User.objects.filter(email=email, password=password).values('id').first():
             raise forms.ValidationError("Authentication failed")
         return cleaned_data
 
     def login(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-        return User.objects.get(email=email, password=password).id
+        return models.User.objects.get(email=email, password=password).id
 
 
 class SignUpForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput)
-    password = forms.CharField(max_length=16,min_length=6,widget=forms.PasswordInput)
-    confirm_pw = forms.CharField(max_length=16,min_length=6,widget=forms.PasswordInput)
-    education = forms.ChoiceField(choices=EDUCATION_CHOICES,widget=forms.RadioSelect,required=False)
-    graduation_date = forms.DateField(required=False,widget=forms.SelectDateWidget)
-    major = forms.ChoiceField(choices=MAJOR_CHOICES,widget=forms.RadioSelect,required=False)
-    zipcode = forms.IntegerField(max_value=99999,min_value=0,required=False)
+    password = forms.CharField(max_length=16, min_length=6, widget=forms.PasswordInput)
+    confirm_pw = forms.CharField(max_length=16, min_length=6, widget=forms.PasswordInput)
+    education = forms.ChoiceField(choices=models.EDUCATION_CHOICES, widget=forms.RadioSelect, required=False)
+    graduation_date = forms.DateField(required=False, widget=forms.SelectDateWidget)
+    major = forms.ChoiceField(choices=models.MAJOR_CHOICES, widget=forms.RadioSelect, required=False)
+    zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False)
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
+        if models.User.objects.filter(email=email).exists():
             raise forms.ValidationError("Email already exists")
         return email
 
@@ -69,7 +86,7 @@ class SignUpForm(forms.Form):
         graduation_date = self.cleaned_data.get('graduation_date')
         major = self.cleaned_data.get('major')
         zipcode = self.cleaned_data.get('zipcode')
-        new_user = User(
+        new_user = models.User(
             email=email,
             password=password,
             education=education,
@@ -78,4 +95,4 @@ class SignUpForm(forms.Form):
             zipcode=zipcode,
         )
         new_user.save()
-        return User.objects.get(email=email, password=password).id
+        return models.User.objects.get(email=email, password=password).id

@@ -1,7 +1,9 @@
+import json
 from django.shortcuts import render
 from CatoApp.forms import *
 from CatoApp.models import *
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core import serializers
 from django.template import RequestContext
 
 
@@ -117,3 +119,6 @@ def profile(request):
         },
         RequestContext(request)
     )
+
+def json_all_skills(request):
+    return HttpResponse(serializers.serialize("json", Skill.objects.all()), content_type='application/json')
