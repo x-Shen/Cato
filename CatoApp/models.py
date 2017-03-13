@@ -55,7 +55,10 @@ class User(models.Model):
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Job(models.Model):
