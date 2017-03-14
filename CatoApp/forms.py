@@ -26,15 +26,31 @@ class SearchForm(forms.Form):
     )
     education = forms.ChoiceField(choices=models.EDUCATION_CHOICES, required=False, disabled=True)
     major = forms.ChoiceField(choices=models.MAJOR_CHOICES, required=False, disabled=True)
-    zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False, disabled= True)
+    zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False, disabled=True)
 
     def matched_jobs(self):
-        skills = self.cleaned_data.get('skills')
-        # education = self.cleaned_data.get('education')
-        # major = self.cleaned_data.get('major')
-        # zipcode = self.cleaned_data.get('zipcode')  # currently does not support location-based search
-        found = models.Job.objects.filter(jobneedskill__skill__in=skills)
-        return found  # job found goes here
+        jobs = models.Job.objects.all()
+        # # how to find related skills
+        # for job in jobs:
+        #     skills = job.jobneedskill_set.select_related('skill')
+        #     for skill in skills:
+        #         print(skill.skill)
+        #     print("end of job "+job.title)
+        if hasattr(self, 'cleaned_data'):
+            jobs = jobs.filter(jobneedskill__skill__in=self.cleaned_data.get('skills'))
+            # education
+            # major
+            # zipcode
+
+        # add required skill to jobs
+        to_return = {}
+        jobs = jobs.prefetch_related('jobneedskill_set__skill')
+        for job in jobs:
+            to_return[job] = job.jobneedskill_set.all()# jobs.filter(job=job).values('jobneedskill__skill')# models.Skill.objects.filter(jobneedskill__job=job)
+        return to_return
+
+        # return jobs
+
 
 
 class LoginForm(forms.Form):

@@ -13,9 +13,8 @@ def search(request):
             'search.html',
             {
                 'search_form': SearchForm(),
-                'search_result': Job.objects.all()
-            },
-            RequestContext(request)
+                'search_result': SearchForm().matched_jobs()
+            }
         )
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
@@ -26,8 +25,7 @@ def search(request):
                 {
                     'search_form': search_form,
                     'search_result': search_form.matched_jobs()
-                },
-                RequestContext(request)
+                }
             )
         else:
             return render(
@@ -35,9 +33,8 @@ def search(request):
                 'search.html',
                 {
                     'search_form': search_form,
-                    'search_result': []
-                },
-                RequestContext(request)
+                    'search_result': {}
+                }
             )
 
 
@@ -56,17 +53,11 @@ def login(request):
         return render(
             request,
             'login.html',
-            {'login_form': login_form},
-            RequestContext(request)
+            {'login_form': login_form}
         )
 
     # other method (GET) display form
-    return render(
-        request,
-        'login.html',
-        {'login_form': LoginForm()},
-        RequestContext(request)
-    )
+    return render(request, 'login.html', {'login_form': LoginForm()})
 
 
 def logout(request):
@@ -93,30 +84,19 @@ def sign_up(request):
         )
 
     # other method (GET) display form
-    return render(
-        request,
-        'sign_up.html',
-        {'sign_up_form': SignUpForm()},
-        RequestContext(request)
-    )
+    return render(request, 'sign_up.html', {'sign_up_form': SignUpForm()})
 
 
 def profile(request):
     if 'user_id' not in request.session:
-        return render(
-            request,
-            'login.html',
-            {'login_form': LoginForm()},
-            RequestContext(request)
-        )
+        return render(request, 'login.html', {'login_form': LoginForm()})
     return render(
         request,
         'profile.html',
         {
             'user': User.objects.get(id=request.session['user_id']),
             'skills': Skill.objects.filter(id__in=UserHasSkill.objects.filter(user_id=request.session['user_id']))
-        },
-        RequestContext(request)
+        }
     )
 
 

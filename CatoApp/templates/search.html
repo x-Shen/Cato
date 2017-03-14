@@ -13,11 +13,23 @@
         <input type="submit" value="Search">
     </form>
 
-    {% if search_result and search_result.count > 0 %}
-        <hr />
-        <h2>Matched Jobs: </h2>
-        {% for job in search_result%}
-            {{ job }}<hr />
+    <hr />
+    <h2>Matched Jobs: </h2>
+    {% if search_result %}
+        {% comment %}
+        {% for job in search_result %}
+            <a href="{{ job.url }}"><strong>{{ job.title }}</strong></a> - {{ job.company }}
+            <hr />
         {% endfor %}
+        {% endcomment %}
+        {% for job, skills in search_result.items %}
+            <a href="{{ job.url }}"><strong>{{ job.title }}</strong></a> - {{ job.company }}
+            {% for skill in skills %}
+                &nbsp[{{ skill.skill }}]&nbsp
+            {% endfor %}
+            <hr />
+        {% endfor %}
+    {% else %}
+        <p>Sorry, nothing found</p>
     {% endif %}
 {% endblock body %}
