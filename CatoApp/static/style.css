@@ -2,6 +2,7 @@
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 999;
 }
 
 .nav ul {
@@ -43,4 +44,9 @@ div.body {
     padding-left: 50px;
     background-color: #e2e2e2;
     opacity: 0.9;
+}
+
+body {
+    background: white url("images/background1.jpg") no-repeat fixed center;
+    z-index: 1;
 }
