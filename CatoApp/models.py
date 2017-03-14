@@ -49,7 +49,7 @@ class User(models.Model):
         null=True
     )
     graduation_date = models.DateField(null=True)
-    major = models.CharField(max_length=16,null=True)
+    major = models.CharField(max_length=16, null=True)
     zipcode = models.PositiveIntegerField(null=True)
 
 
@@ -69,23 +69,26 @@ class Job(models.Model):
     valid = models.BooleanField(default=True)
     zipcode = models.PositiveIntegerField(null=True)
 
-    def __str__(self):
-        return self.title + ": " + self.url
-
 
 class UserHasSkill(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    skill = models.ForeignKey(Skill,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["user", "skill"]
 
 
 class JobNeedSkill(models.Model):
-    job = models.ForeignKey(Job,on_delete=models.CASCADE)
-    skill = models.ForeignKey(Skill,on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["job", "skill"]
 
 
 class UserJobRelation(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    job = models.ForeignKey(Job,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
     seen = models.BooleanField(default=False)
     recommended = models.BooleanField(default=False)
     starred = models.BooleanField(default=False)
