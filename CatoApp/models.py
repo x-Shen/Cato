@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 
 
 # education options
@@ -69,6 +68,9 @@ class Job(models.Model):
     posting_date = models.DateField(null=True)
     valid = models.BooleanField(default=True)
     zipcode = models.PositiveIntegerField(null=True)
+
+    def __str__(self):
+        return self.title + ": " + self.url
 
 
 class UserHasSkill(models.Model):

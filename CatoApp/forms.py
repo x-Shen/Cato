@@ -19,25 +19,35 @@ from CatoApp import models
 
 
 class SearchForm(forms.Form):
-    skills = forms.ModelMultipleChoiceField(queryset=models.Skill.objects.all().order_by('name'), to_field_name="name", required=False)
-    education = forms.ChoiceField(choices=models.EDUCATION_CHOICES, required=False)
-    major = forms.ChoiceField(choices=models.MAJOR_CHOICES, required=False)
-    zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False)
+    skills = forms.ModelMultipleChoiceField(
+        queryset=models.Skill.objects.all().order_by('name'),
+        to_field_name="name",
+        required=False
+    )
+    education = forms.ChoiceField(choices=models.EDUCATION_CHOICES, required=False, disabled=True)
+    major = forms.ChoiceField(choices=models.MAJOR_CHOICES, required=False, disabled=True)
+    zipcode = forms.IntegerField(max_value=99999, min_value=0, required=False, disabled= True)
 
     def matched_jobs(self):
-        # job search logic goes here
-        return []  # job found goes here
+        skills = self.cleaned_data.get('skills')
+        # education = self.cleaned_data.get('education')
+        # major = self.cleaned_data.get('major')
+        # zipcode = self.cleaned_data.get('zipcode')  # currently does not support location-based search
+        found = models.Job.objects.filter(jobneedskill__skill__in=skills)
+        return found  # job found goes here
 
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput, max_length=16, min_length=6)
+    user_id = None
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
-        if not models.User.objects.filter(email=email, password=password).values('id').first():
+        user_id = models.User.objects.filter(email=email, password=password).values('id').first()
+        if not user_id:
             raise forms.ValidationError("Authentication failed")
         return cleaned_data
 

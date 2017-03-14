@@ -17,7 +17,7 @@
         <hr />
         <h2>Matched Jobs: </h2>
         {% for job in search_result%}
-            <!-- show job info here -->
+            {{ job }}<hr />
         {% endfor %}
     {% endif %}
 {% endblock body %}

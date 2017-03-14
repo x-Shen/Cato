@@ -1,4 +1,3 @@
-import json
 from django.shortcuts import render
 from CatoApp.forms import *
 from CatoApp.models import *
@@ -13,8 +12,8 @@ def search(request):
             request,
             'search.html',
             {
-                'search_form':SearchForm(),
-                'search_result':[]
+                'search_form': SearchForm(),
+                'search_result': Job.objects.all()
             },
             RequestContext(request)
         )
@@ -45,7 +44,7 @@ def search(request):
 def login(request):
     # This if statement should not return true
     # AKA A user who has logged in should not be able to login again without logging out
-    if request.session.has_key('user_id'):
+    if 'user_id' in request.session:
         return HttpResponseRedirect('/')
 
     # POST method process form
@@ -71,14 +70,14 @@ def login(request):
 
 
 def logout(request):
-    request.session.flush() # delete everything; should I leave something alive?
+    request.session.flush()  # delete everything; should I leave something alive?
     return HttpResponseRedirect('/')
 
 
 def sign_up(request):
     # This if statement should not return true
     # AKA A user who has logged in should not be able to sign up
-    if request.session.has_key('user_id'):
+    if 'user_id' in request.session:
         logout(request)
 
     if request.method == 'POST':
@@ -103,7 +102,7 @@ def sign_up(request):
 
 
 def profile(request):
-    if not request.session.has_key('user_id'):
+    if 'user_id' not in request.session:
         return render(
             request,
             'login.html',
@@ -119,6 +118,7 @@ def profile(request):
         },
         RequestContext(request)
     )
+
 
 def json_all_skills(request):
     return HttpResponse(serializers.serialize("json", Skill.objects.all()), content_type='application/json')
